@@ -1,15 +1,16 @@
 FROM python:3
 
+# Set working directory
 WORKDIR /data
 
-RUN pip install django==3.2
+# Install Django
+RUN pip install --no-cache-dir django==3.2
 
+# Copy project files
 COPY . .
 
-RUN python manage.py migrate
-
+# Expose port
 EXPOSE 8000
 
-CMD ["python","manage.py","runserver","0.0.0.0:8000"]
-
-
+# Run migrations at container start, then run server
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
